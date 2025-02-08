@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import SearchBooks from './pages/SearchBooks/SearchBooks'
+import SearchBooks from './components/SearchBooks/SearchBooks'
+import BookCard from './components/BookCard/BookCard'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,6 +11,12 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     <SearchBooks></SearchBooks>
+    <BookCard bookData={{ 
+      title: "Throne of Glass",
+      coverImage: "https://m.media-amazon.com/images/I/81Or91a0G+L._UF894,1000_QL80_.jpg",
+      author: "Sarah J. Mass",
+      rating: 5
+    }}/>
   </React.StrictMode>
 );
 

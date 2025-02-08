@@ -1,0 +1,19 @@
+.bookCard {
+    width: 10vw;
+    border: 2px solid #d1cfcf;
+    border-radius: 3%;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.bookCard:hover {
+    border-color: #b0aeae;
+}
+
+.bookRating {
+    font-size: 100%;
+}
+
+.container {
+    padding: 1vh 1vw 1vh 1vw
+}
+  
