@@ -11,12 +11,6 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     <SearchBooks></SearchBooks>
-    <BookCard bookData={{ 
-      title: "Throne of Glass",
-      coverImage: "https://m.media-amazon.com/images/I/81Or91a0G+L._UF894,1000_QL80_.jpg",
-      author: "Sarah J. Mass",
-      rating: 5
-    }}/>
   </React.StrictMode>
 );
 
