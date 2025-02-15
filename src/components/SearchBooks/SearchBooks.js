@@ -1,44 +1,38 @@
-import { Input, Button, Row, Col } from "antd";
-import { SearchOutlined } from '@ant-design/icons'
+import { Input, Row } from "antd";
 import styles from "../../css/SearchBooks.module.css"
 import { useState } from "react"
 import BookCard from "../BookCard/BookCard";
+import { getBooksService } from "../../getServices/getBooksService";
+import axios from "axios";
 
 function SearchBooks() {
-    const [bookList, setBookList] = useState([])
+    const [bookList, setBookList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const onSearch = () => {
-        // for testing
-        setBookList([
-            { 
-                title: "Throne of Glass",
-                coverImage: "https://m.media-amazon.com/images/I/81Or91a0G+L._UF894,1000_QL80_.jpg",
-                author: "Sarah J. Mass",
-                rating: 4.5
-            },
-            { 
-                title: "Crown of Midnight",
-                coverImage: "https://m.media-amazon.com/images/I/81iTPPOMFzL.jpg",
-                author: "Sarah J. Mass",
-                rating: 5
+    const { Search } = Input
+
+    const onSearch = (query) => {
+        setLoading(true);
+        axios.get(`${getBooksService()}/books/search?q=${query}`).then((response) => {
+            if(response.status == 200) {
+                setBookList(response.data)
+                setLoading(false);
             }
-        ]);
+        });
     }
 
     return <div className={styles.page}>
-        <Input 
+        <Search 
             className={styles.searchBar}
             placeholder="Find a book..."
+            onSearch={onSearch}
         />
-        <Button onClick={onSearch}>
-            <SearchOutlined />
-        </Button>
 
-        <Row>
+        {!loading ? <Row>
             {bookList.map(book => (
                 <BookCard bookData={book} />
             ))}
-        </Row>
+        </Row> : <p>Loading ...</p>}
 
 
 
