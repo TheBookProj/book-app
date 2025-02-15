@@ -1,0 +1,27 @@
+.bookCard {
+    width: 12vw;
+    border: 2px solid #d1cfcf;
+    border-radius: 3%;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.bookCard img {
+    width: 100%;
+    height: 40vh; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensures the image fills the space without stretching */
+    border-radius: 5px; /* Optional: adds rounded corners */
+}
+
+.bookCard:hover {
+    border-color: #b0aeae;
+}
+
+.bookRating {
+    font-size: 100%;
+}
+
+.container {
+    padding: 1vh 1vw 1vh 1vw
+}
+   
+  
