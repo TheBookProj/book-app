@@ -9,7 +9,7 @@ function SearchBooks() {
     const [bookList, setBookList] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { Search } = Input
+    const { Search } = Input;
 
     const onSearch = (query) => {
         setLoading(true);
