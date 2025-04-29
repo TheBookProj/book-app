@@ -25,7 +25,6 @@ function BookDetails() {
                 if(response.status == 200) {
                     response.data.covers.push(coverI)
                     response.data.covers = [...new Set(response.data.covers)]
-                    console.log(response.data)
                     setBookDetails(response.data)
                     setLoading(false)
                 }
