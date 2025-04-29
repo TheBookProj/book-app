@@ -33,9 +33,6 @@ function SearchBooks() {
                 <BookCard bookData={book} />
             ))}
         </Row> : <p>Loading ...</p>}
-
-
-
     </div>
 }
 

@@ -1,0 +1,41 @@
+.page {
+    padding: 1vh 1vw 0vh 1vw
+}
+
+.covers {
+    padding: 1vh 0vw 1vh 0vw;
+    width: 90%;
+  }
+  
+  .covers :global(.slick-prev),
+.covers :global(.slick-next) {
+  color: black;
+  z-index: 1;
+}
+
+.bookInfo {
+    padding-left: 1vw;
+}
+
+.description {
+    font-size: large;
+}
+
+.showAllBtn {
+    display: flex;
+    justify-content: center;
+    padding: 2vh 1vw 1vh 1vw;
+}
+
+.subjects {
+    width: 95%;
+}
+
+.subjectsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.bookRating {
+    padding-bottom: 3vh
+}
