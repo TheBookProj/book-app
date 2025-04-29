@@ -22,7 +22,7 @@ function BookDetails() {
             axios.get(`${getBooksService()}/books/get?key=${workId}`).then((response) => {
                 if(response.status == 200) {
                     setBookDetails(response.data)
-                    console.log(response.data)
+                    setLoading(false)
                 }
             });
         }
@@ -42,7 +42,7 @@ function BookDetails() {
       };
 
     return <div className={styles.page}>
-        {loading ?
+        {!loading ?
         <Row>
             <Col span={7}>
                 <Carousel className={styles.covers} arrows infinite={false} dots={false}>
