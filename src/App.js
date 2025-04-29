@@ -1,10 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import SearchBooks from './components/SearchBooks/SearchBooks';
+import BookDetails from './components/BookDetails/BookDetails';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Router>
+        <Routes>
+          <Route path="/" element={<SearchBooks />} />
+          <Route path="/book-details" element={<BookDetails />} />
+        </Routes>
+      </Router>
+      
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +27,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
