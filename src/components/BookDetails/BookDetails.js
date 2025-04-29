@@ -13,14 +13,18 @@ function BookDetails() {
     
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
-    const authors = queryParams.get("authors").replace(",", " ,");
+    const authors = queryParams.get("authors").replaceAll(",", ", ");
     const title = queryParams.get("title")
-    const workId = queryParams.get("key")      
+    const workId = queryParams.get("key")
+    const coverI =   queryParams.get("cover") 
+    const rating =   queryParams.get("rating")
     
     useEffect(() => {
         const fetchDetails = () => {
             axios.get(`${getBooksService()}/books/get?key=${workId}`).then((response) => {
                 if(response.status == 200) {
+                    response.data.covers.push(coverI)
+                    response.data.covers = [...new Set(response.data.covers)]
                     setBookDetails(response.data)
                     setLoading(false)
                 }
@@ -58,37 +62,54 @@ function BookDetails() {
             <Col span={17} className={styles.bookInfo}>
                 <Title style={{ marginBottom: 5 }}>{title}</Title>
                 <Title level={3} style={{ marginTop: 0 }}>{authors}</Title>
-                {bookDetails?.rating >= 0 ? <Rate className={styles.bookRating} allowHalf disabled defaultValue={bookDetails?.rating}/> : <p>Rating Unavailable</p>}
+                {rating >= 0 ? <Rate className={styles.bookRating} allowHalf disabled defaultValue={rating}/> : <p>Rating Unavailable</p>}
                 <Paragraph className={styles.description}>{bookDetails?.description}</Paragraph>
                 <Title level={4}>Subjects / Genres</Title>
+                {bookDetails.subjects.length > 3 ?
+                    <Row>
+                        <Col span={12}>
+                            <div className={styles.subjectsContainer}>
+                                <List
+                                    className={styles.subjects}
+                                    size="large"
+                                    bordered
+                                    dataSource={bookDetails?.subjects.slice(0,3)}
+                                    renderItem={
+                                        (item) => <List.Item>{item}</List.Item>
+                                    }
+                                />
+                            </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className={styles.subjectsContainer}>
+                                <List
+                                    className={styles.subjects}
+                                    size="large"
+                                    bordered
+                                    dataSource={bookDetails?.subjects.slice(3,6)}
+                                    renderItem={
+                                        (item) => <List.Item>{item}</List.Item>
+                                    }
+                                />
+                            </div>
+                        </Col>
+                    </Row> 
+                :
                 <Row>
-                    <Col span={12}>
-                    <div className={styles.subjectsContainer}>
-                        <List
-                            className={styles.subjects}
-                            size="large"
-                            bordered
-                            dataSource={bookDetails?.subjects.slice(0,3)}
-                            renderItem={
-                                (item) => <List.Item>{item}</List.Item>
-                            }
-                        />
-                    </div>
-                    </Col>
-                    <Col span={12}>
+                    <Col span={24}>
                         <div className={styles.subjectsContainer}>
                             <List
                                 className={styles.subjects}
                                 size="large"
                                 bordered
-                                dataSource={bookDetails?.subjects.slice(3,6)}
+                                dataSource={bookDetails?.subjects}
                                 renderItem={
                                     (item) => <List.Item>{item}</List.Item>
                                 }
                             />
                         </div>
                     </Col>
-                </Row>
+                </Row>}
                 {bookDetails?.subjects.length > 6 && (
                     <div className={styles.showAllBtn}>
                         <Button onClick={showAllSubjects}>Show all</Button>
