@@ -13,7 +13,7 @@ function BookCard({bookData}) {
     )
 
     const handleCardClick = () => {
-        const path = `/book-details?key=${bookData.key}&title=${bookData.title}&authors=${bookData.authors.join(",")}`
+        const path = `/book-details?key=${bookData.key}&title=${bookData.title}&authors=${bookData.authors.join(",")}&cover=${bookData.cover}&rating=${bookData.rating}`
         navigate(path);
     }
 
