@@ -43,6 +43,7 @@ function SearchBooks() {
             className={styles.searchBar}
             placeholder="Find a book..."
             onSearch={onSearch}
+            defaultValue={bookQuery}
         />
 
         {!loading ? <Row>
