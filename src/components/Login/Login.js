@@ -14,6 +14,7 @@ function Login() {
         .then((userCredential) => {
             console.log(userCredential.user);
             message.success("Successfully logged in.");
+            navigate('/home')
         })
         .catch((error) => {
             console.log(error)

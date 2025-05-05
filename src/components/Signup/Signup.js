@@ -4,10 +4,12 @@ import { app } from '../../firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getUsersService } from '../../getServices/getUsersService';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
 
     const { Title } = Typography;
+    const navigate = useNavigate();
 
     const submitForm = async (values) => {
         const auth = getAuth(app)
@@ -19,6 +21,7 @@ function Signup() {
                 .then((userCredential) => {
                     message.success("Successfully created your account.")
                     console.log(userCredential.user)
+                    navigate('/')
                   })
                   .catch((error) => {
                     message.error("There was an error in creating your account.")
