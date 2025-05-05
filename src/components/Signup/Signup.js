@@ -1,14 +1,44 @@
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Typography, message } from 'antd';
 import styles from '../../css/Signup.module.css'
+import { app } from '../../firebaseConfig'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getUsersService } from '../../getServices/getUsersService';
+import axios from 'axios';
 
 function Signup() {
 
     const { Title } = Typography;
 
+    const submitForm = async (values) => {
+        const auth = getAuth(app)
+
+        axios.put(`${getUsersService()}/users/add`, { username: values.username, email: values.email })
+        .then((response) => {
+            if(response.status == 200) {
+                createUserWithEmailAndPassword(auth, values.email, values.password)
+                .then((userCredential) => {
+                    message.success("Successfully created your account.")
+                    console.log(userCredential.user)
+                  })
+                  .catch((error) => {
+                    message.error("There was an error in creating your account.")
+                    console.log(error);
+                  });
+            } else {
+                message.error("There was an error in creating your account.")
+            }
+        })
+        .catch((error) => {
+            message.error("There was an error in creating your account.")
+            console.log(error)
+        })
+
+    }
+
     return <div className={styles.page}>
         <Title>The Book Project</Title>
         <Title level={2}>Signup</Title>
-        <Form>
+        <Form onFinish={submitForm}>
             <Form.Item
                 label="Username"
                 name="username"
@@ -17,7 +47,7 @@ function Signup() {
             </Form.Item>
             <Form.Item
                 label="Email"
-                name="Email"
+                name="email"
             >
                 <Input />
             </Form.Item>
@@ -29,7 +59,7 @@ function Signup() {
             </Form.Item>
             <Form.Item
                 label="Confirm Password"
-                name="confirm password"
+                name="confirmPassword"
             >
                 <Input.Password />
             </Form.Item>

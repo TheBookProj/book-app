@@ -1,19 +1,33 @@
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Form, Input, Typography, message } from 'antd';
 import styles from '../../css/Login.module.css'
 import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
 
     const { Title } = Typography;
     const navigate = useNavigate();
 
+    const submitForm = async (values) => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+            console.log(userCredential.user);
+            message.success("Successfully logged in.");
+        })
+        .catch((error) => {
+            console.log(error)
+            message.error("There was an issue with logging you in.");
+        });
+    }
+
     return <div className={styles.page}>
         <Title>The Book Project</Title>
         <Title level={2}>Login</Title>
-        <Form>
+        <Form onFinish={submitForm}>
             <Form.Item
-                label="Username"
-                name="username"
+                label="Email"
+                name="email"
             >
                 <Input />
             </Form.Item>
