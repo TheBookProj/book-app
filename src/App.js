@@ -3,14 +3,18 @@ import './App.css';
 import SearchBooks from './components/SearchBooks/SearchBooks';
 import BookDetails from './components/BookDetails/BookDetails';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<SearchBooks />} />
+          <Route path="/" element={<Login/>} />
           <Route path="/book-details" element={<BookDetails />} />
+          <Route path="/sign-up" element={<Signup />} />
+          <Route path="/home" element={<SearchBooks />} />
         </Routes>
       </Router>
       

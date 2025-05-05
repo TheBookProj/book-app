@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import BookCard from "../BookCard/BookCard";
 import { getBooksService } from "../../getServices/getBooksService";
 import axios from "axios";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 
 function SearchBooks() {
     const [bookList, setBookList] = useState([]);
@@ -13,6 +13,7 @@ function SearchBooks() {
     const [searchParams] = useSearchParams();
     const params = new URLSearchParams(searchParams);
     const navigate = useNavigate();
+    const location = useLocation();
     const bookQuery = params.get("q");
 
     const { Search } = Input;
@@ -33,7 +34,7 @@ function SearchBooks() {
         params.delete("q")
         params.append("q", query)
         navigate({
-            pathname: "/",
+            pathname: location.pathname,
             search: `?${params.toString()}`
           });
     }
@@ -43,6 +44,7 @@ function SearchBooks() {
             className={styles.searchBar}
             placeholder="Find a book..."
             onSearch={onSearch}
+            defaultValue={bookQuery}
         />
 
         {!loading ? <Row>
