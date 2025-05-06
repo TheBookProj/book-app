@@ -1,8 +1,8 @@
 import { Button, Form, Input, Typography, message } from 'antd';
 import styles from '../../css/Signup.module.css'
-import { app } from '../../firebaseConfig'
+import { app } from '../../firebase/firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getUsersService } from '../../getServices/getUsersService';
+import { getMiddlewareService } from '../../getServices/getMiddlewareService';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ function Signup() {
     const submitForm = async (values) => {
         const auth = getAuth(app)
 
-        axios.put(`${getUsersService()}/users/add`, { username: values.username, email: values.email })
+        axios.put(`${getMiddlewareService()}/users/add`, { username: values.username, email: values.email })
         .then((response) => {
             if(response.status == 200) {
                 createUserWithEmailAndPassword(auth, values.email, values.password)

@@ -5,17 +5,20 @@ import BookDetails from './components/BookDetails/BookDetails';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
+import { AuthProvider } from './firebase/authContext';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Routes>
-          <Route path="/" element={<Login/>} />
-          <Route path="/book-details" element={<BookDetails />} />
-          <Route path="/sign-up" element={<Signup />} />
-          <Route path="/home" element={<SearchBooks />} />
-        </Routes>
+        <AuthProvider> 
+          <Routes>
+            <Route path="/" element={<Login/>} />
+            <Route path="/book-details" element={<BookDetails />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/home" element={<SearchBooks />} />
+          </Routes>
+        </AuthProvider>
       </Router>
       
       {/* <header className="App-header">
