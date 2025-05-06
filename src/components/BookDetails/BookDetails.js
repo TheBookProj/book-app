@@ -1,9 +1,10 @@
-import { getBooksService } from "../../getServices/getBooksService";
+import { getMiddlewareService } from "../../getServices/getMiddlewareService";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Typography, Image, Carousel, Col, Row, List, Button, Modal, Rate } from 'antd';
 import styles from "../../css/BookDetails.module.css"
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../firebase/authContext";
 
 function BookDetails() {
     const [bookDetails, setBookDetails] = useState(null);
@@ -12,6 +13,8 @@ function BookDetails() {
     const { Title, Paragraph } = Typography;
     
     const { search } = useLocation();
+    const { user } = useAuth();
+    
     const queryParams = new URLSearchParams(search);
     const authors = queryParams.get("authors").replaceAll(",", ", ");
     const title = queryParams.get("title")
@@ -21,16 +24,20 @@ function BookDetails() {
     
     useEffect(() => {
         const fetchDetails = () => {
-            axios.get(`${getBooksService()}/books/get?key=${workId}`).then((response) => {
-                if(response.status == 200) {
-                    response.data.covers.push(coverI)
-                    response.data.covers = [...new Set(response.data.covers)]
-                    setBookDetails(response.data)
-                    setLoading(false)
-                }
+            user.getIdToken().then((tokenId) => {
+                axios.get(`${getMiddlewareService()}/books/get?key=${workId}`, { headers: { Authorization: `Bearer ${tokenId}` }}).then((response) => {
+                    if(response.status == 200) {
+                        response.data.covers.push(coverI)
+                        response.data.covers = [...new Set(response.data.covers)]
+                        setBookDetails(response.data)
+                        setLoading(false)
+                    }
+                });
             });
         }
-        fetchDetails()
+        if (user) {
+            fetchDetails()
+        }
     }, [workId])
 
     const showAllSubjects = () => {

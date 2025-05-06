@@ -13,11 +13,10 @@ function Login() {
         signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
             console.log(userCredential.user);
-            message.success("Successfully logged in.");
             navigate('/home')
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.message)
             message.error("There was an issue with logging you in.");
         });
     }
