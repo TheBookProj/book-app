@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import SearchBooks from './components/SearchBooks/SearchBooks';
 import BookDetails from './components/BookDetails/BookDetails';
@@ -6,18 +5,21 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import { AuthProvider } from './firebase/authContext';
+import { ChatClientProvider } from './agora/ChatClientContext';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <AuthProvider> 
-          <Routes>
-            <Route path="/" element={<Login/>} />
-            <Route path="/book-details" element={<BookDetails />} />
-            <Route path="/sign-up" element={<Signup />} />
-            <Route path="/home" element={<SearchBooks />} />
-          </Routes>
+          <ChatClientProvider>
+            <Routes>
+              <Route path="/" element={<Login/>} />
+              <Route path="/book-details" element={<BookDetails />} />
+              <Route path="/sign-up" element={<Signup />} />
+              <Route path="/home" element={<SearchBooks />} />
+            </Routes>
+          </ChatClientProvider>
         </AuthProvider>
       </Router>
       
