@@ -31,7 +31,7 @@ function App() {
                 <Route path="/sign-up" element={<Signup />} />
                 <Route path="/home" element={<SearchBooks />} />
                 <Route path="/user/:userId" element={<UserDetails />} />
-            `</Routes>
+              </Routes>
             </div>
         </AuthProvider>
       </Router>
