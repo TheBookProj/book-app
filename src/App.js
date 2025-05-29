@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import { AuthProvider } from './firebase/authContext';
+import UserDetails from './components/UserDetails/UserDetails';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/book-details" element={<BookDetails />} />
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/home" element={<SearchBooks />} />
+            <Route path="/user/:userId" element={<UserDetails />} />
           </Routes>
         </AuthProvider>
       </Router>
