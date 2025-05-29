@@ -39,7 +39,7 @@ function BookDetails() {
         if (user) {
             fetchDetails();
         }
-    }, [workId])
+    }, [user, workId])
 
     const showAllSubjects = () => {
         setIsModalOpen(true);

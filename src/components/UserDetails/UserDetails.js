@@ -30,7 +30,7 @@ function UserDetails() {
         if (user) {
             fetchUserData();
         }
-    }, [userId]);
+    }, [user, userId]);
 
     const handleChat = () => {
         console.log("Will provide soon!")
