@@ -17,13 +17,14 @@ function BookDetails() {
     
     const queryParams = new URLSearchParams(search);
     const authors = queryParams.get("authors").replaceAll(",", ", ");
-    const title = queryParams.get("title")
-    const workId = queryParams.get("key")
-    const coverI =   queryParams.get("cover") 
-    const rating =   queryParams.get("rating")
+    const title = queryParams.get("title");
+    const workId = queryParams.get("key");
+    const coverI =   queryParams.get("cover"); 
+    const rating =   queryParams.get("rating");
     
     useEffect(() => {
         const fetchDetails = () => {
+            setLoading(true);
             user.getIdToken().then((tokenId) => {
                 axios.get(`${getMiddlewareService()}/books/get?key=${workId}`, { headers: { Authorization: `Bearer ${tokenId}` }}).then((response) => {
                     if(response.status == 200) {
@@ -36,9 +37,9 @@ function BookDetails() {
             });
         }
         if (user) {
-            fetchDetails()
+            fetchDetails();
         }
-    }, [workId])
+    }, [user, workId])
 
     const showAllSubjects = () => {
         setIsModalOpen(true);

@@ -36,7 +36,7 @@ function SearchBooks() {
                 })
             })
         }
-      }, [params.get("q")]); 
+      }, [user, params.get("q")]); 
 
     const onSearch = (query) => {
         params.delete("q")
