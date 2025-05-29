@@ -24,8 +24,10 @@ function Login() {
             user.getIdToken().then((tokenId) => {
                 axios.get(`${getMiddlewareService()}/users/login?email=${values.email}`, { headers: { Authorization: `Bearer ${tokenId}`} }).then((response) => {
                     if(response.status == 200) {
+                        console.log(response.data.token)
                         setToken(response.data.token);
                         setUserId(response.data.id);
+                        navigate('/home')
                     } else {
                         // should sign user out too
                         message.error("There was an issue with logging you in.")
@@ -46,7 +48,7 @@ function Login() {
                 user: userId,
                 accessToken: token,
             })
-            navigate('/home')
+            
         }
     }, [token, userId])
 
