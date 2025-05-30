@@ -3,13 +3,15 @@ import { getAuth, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function LogOut({ clicked, onCancel }) {
+function LogOut({ clicked, removeLogOutRequest }) {
     const navigate = useNavigate();
     const [visible, isVisible] = useState(clicked);
 
     useEffect(() => {
         if(clicked) {
             isVisible(true);
+        } else {
+            isVisible(false);
         }
     }, [clicked])
 
@@ -17,6 +19,7 @@ function LogOut({ clicked, onCancel }) {
         const auth = getAuth();
         signOut(auth).then(() => {
             isVisible(false);
+            removeLogOutRequest();
             navigate('/');
         }).catch((error) => {
             message.error("We encountered an error in logging you out.")
@@ -25,7 +28,7 @@ function LogOut({ clicked, onCancel }) {
 
     const handleCancel = () => {
         isVisible(false);
-        onCancel();
+        removeLogOutRequest();
     }
 
     return (
@@ -36,9 +39,7 @@ function LogOut({ clicked, onCancel }) {
             onOk={handleOk}
             onCancel={handleCancel}
         >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <p>Are you sure you'd like to log out?</p>
         </Modal>
     )
 }

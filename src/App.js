@@ -23,7 +23,7 @@ function App() {
           <div className="mainPage">
               <LogOut
                 clicked={logOutRequested}
-                onCancel={() => setLogOutRequested(false)}
+                removeLogOutRequest={() => setLogOutRequested(false)}
               />
               <Routes>
                 <Route path="/" element={<Login/>} />
