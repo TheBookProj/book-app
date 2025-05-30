@@ -5,6 +5,7 @@ import { Typography, Image, Carousel, Col, Row, List, Button, Modal, Rate } from
 import styles from "../../css/BookDetails.module.css"
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../firebase/authContext";
+import BookReviewList from "../BookReview/BookReview";
 
 function BookDetails() {
     const [bookDetails, setBookDetails] = useState(null);
@@ -128,6 +129,8 @@ function BookDetails() {
                     <List.Item>{subject}</List.Item>
                 ))}
                 </Modal>
+                <Title level={4}>Reviews</Title>
+                <BookReviewList />
             </Col>
         </Row>
         : <p>Loading...</p>}

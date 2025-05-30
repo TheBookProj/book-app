@@ -1,0 +1,12 @@
+.comment {
+    float: left;
+    padding-top: 0.25vh
+}
+
+.rating {
+   float: left;
+}
+
+.commentContainer {
+    padding: 0.5vh 0.5vw 0.5vh 0.5vw;
+}

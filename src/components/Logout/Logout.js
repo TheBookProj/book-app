@@ -8,12 +8,8 @@ function LogOut({ clicked, removeLogOutRequest }) {
     const [visible, isVisible] = useState(clicked);
 
     useEffect(() => {
-        if(clicked) {
-            isVisible(true);
-        } else {
-            isVisible(false);
-        }
-    }, [clicked])
+        isVisible(clicked);
+    }, [clicked]);
 
     const handleOk = () => {
         const auth = getAuth();
@@ -22,8 +18,8 @@ function LogOut({ clicked, removeLogOutRequest }) {
             removeLogOutRequest();
             navigate('/');
         }).catch((error) => {
-            message.error("We encountered an error in logging you out.")
-        })
+            message.error("We encountered an error in logging you out.");
+        });
     }
 
     const handleCancel = () => {
