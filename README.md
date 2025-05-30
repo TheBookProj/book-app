@@ -8,5 +8,5 @@ This web application provides users with book information and allows them to kee
 
 ## Running Locally
 1. Install dependancies with ```npm install```.
-2. Ensure book-management-service is running on port 8000.
+2. Ensure all other services are running on the ports (as specified in each other their respective README).
 3. Run using ```npm run start```.
