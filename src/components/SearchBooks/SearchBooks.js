@@ -34,7 +34,7 @@ function SearchBooks() {
                     console.log(error)
                     message.error("There was an error - please try again.")
                 })
-            })
+            });
         }
       }, [user, params.get("q")]); 
 

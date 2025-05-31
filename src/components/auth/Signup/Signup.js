@@ -1,8 +1,8 @@
 import { Button, Form, Input, Typography, message } from 'antd';
-import styles from '../../css/Signup.module.css'
-import { app } from '../../firebase/firebaseConfig'
+import styles from '../../../css/Signup.module.css'
+import { app } from '../../../firebase/firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getMiddlewareService } from '../../getServices/getMiddlewareService';
+import { getMiddlewareService } from '../../../getServices/getMiddlewareService';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

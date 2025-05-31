@@ -2,12 +2,12 @@ import './App.css';
 import SearchBooks from './components/SearchBooks/SearchBooks';
 import BookDetails from './components/BookDetails/BookDetails';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
-import Signup from './components/Signup/Signup';
+import Login from './components/auth/Login/Login';
+import Signup from './components/auth/Signup/Signup';
 import { AuthProvider } from './firebase/authContext';
 import UserDetails from './components/UserDetails/UserDetails';
 import NavBar from './components/NavBar/NavBar';
-import LogOut from './components/LogOut/LogOut';
+import LogOut from './components/auth/LogOut/LogOut';
 import { useState } from 'react';
 
 function App() {

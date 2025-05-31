@@ -5,7 +5,7 @@ import { Typography, Image, Carousel, Col, Row, List, Button, Modal, Rate } from
 import styles from "../../css/BookDetails.module.css"
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../firebase/authContext";
-import BookReviewList from "../BookReview/BookReview";
+import BookReviewList from "../reviews/BookReviewList/BookReviewList"
 
 function BookDetails() {
     const [bookDetails, setBookDetails] = useState(null);
@@ -29,6 +29,7 @@ function BookDetails() {
             user.getIdToken().then((tokenId) => {
                 axios.get(`${getMiddlewareService()}/books/get?key=${workId}`, { headers: { Authorization: `Bearer ${tokenId}` }}).then((response) => {
                     if(response.status == 200) {
+                        console.log(response.data)
                         response.data.covers.push(coverI)
                         response.data.covers = [...new Set(response.data.covers)]
                         setBookDetails(response.data)
@@ -130,7 +131,7 @@ function BookDetails() {
                 ))}
                 </Modal>
                 <Title level={4}>Reviews</Title>
-                <BookReviewList />
+                <BookReviewList bookId={workId}/>
             </Col>
         </Row>
         : <p>Loading...</p>}
