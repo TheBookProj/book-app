@@ -1,5 +1,5 @@
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
-import { Avatar, Tooltip, Rate } from 'antd';
+import { Avatar, Tooltip, Rate, message } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import styles from '../../../css/BookReview.module.css'
 import { useState, createElement, useEffect } from 'react';
@@ -45,6 +45,24 @@ function BookReview({ reviewData }) {
       setAction('disliked');
   };
 
+  const deleteReview = () => {
+    if(user) {
+        user.getIdToken().then((tokenId) => {
+          axios.delete(`${getMiddlewareService()}/book-user/review/delete?id=${reviewData.id}`, { headers: { Authorization: `Bearer ${tokenId}` } }).then((response) => {
+              if(response.status == 204) {
+                message.success("Review successfully deleted.");
+              } else {
+                //message.error("There was an issue in deleting your review. Please try again later.");
+              }
+          })
+          .catch((error) => {
+              message.error("There was an issue in deleting your review. Please try again later.");
+              console.log(error);
+          })
+      });
+    }
+  }
+
   const actions = [
     <Tooltip key="comment-basic-like" title="Like">
       <span onClick={like}>
@@ -59,33 +77,33 @@ function BookReview({ reviewData }) {
       </span>
     </Tooltip>,
     <span key="comment-basic-reply-to">Reply to</span>,
-    <span key="comment-basic-delete">Delete</span>
+    <span key="comment-basic-delete" onClick={deleteReview}>Delete</span>
   ];
 
     const Review = () => (
-  <Comment
-    actions={actions}
-    author={<a>{author}</a>}
-    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt={reviewData?.author} />}
-    content={
-        <div className={styles.commentContainer}>
-          <Rate className={styles.rating} allowHalf disabled defaultValue={reviewData?.rating}/>
-          <br/>
-          <p className={styles.comment}>
-              {reviewData?.comment}
-          </p>
-            
-        </div>
-    }
-    datetime={
-        <Tooltip title={moment(reviewData?.created_at)?.toString()}>
-          <span>{moment(reviewData?.created_at)?.fromNow()}</span>
-        </Tooltip>
-      }
-  >
-    {comments}
-  </Comment>
-);
+      <Comment
+        actions={actions}
+        author={<a>{author}</a>}
+        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt={reviewData?.author} />}
+        content={
+            <div className={styles.commentContainer}>
+              <Rate className={styles.rating} allowHalf disabled defaultValue={reviewData?.rating}/>
+              <br/>
+              <p className={styles.comment}>
+                  {reviewData?.comment}
+              </p>
+                
+            </div>
+        }
+        datetime={
+            <Tooltip title={moment(reviewData?.created_at)?.toString()}>
+              <span>{moment(reviewData?.created_at)?.fromNow()}</span>
+            </Tooltip>
+          }
+      >
+        {comments}
+      </Comment>
+    );
 
     return <div>
         <Review>

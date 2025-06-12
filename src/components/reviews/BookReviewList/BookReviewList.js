@@ -4,15 +4,16 @@ import BookReview from "../BookReview/BookReview";
 import axios from "axios";
 import { useAuth } from "../../../firebase/authContext";
 import { getMiddlewareService } from "../../../getServices/getMiddlewareService";
+import Cookies from "js-cookie";
 
 function BookReviewList({bookId}) {
     const [reviews, setReviews] = useState([]);
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
+    const [reviewAllowed, isReviewAllowed] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        console.log(bookId)
         if(user && bookId) {
             user.getIdToken().then((tokenId) => {
                 axios.get(`${getMiddlewareService()}/book-user/review/get?book_id=${bookId}`, { headers: { Authorization: `Bearer ${tokenId}` } }).then((response) => {
@@ -29,8 +30,11 @@ function BookReviewList({bookId}) {
     }, [bookId, user])
 
     useEffect(() => {
-        // console.log(reviews);
-        // console.log(bookId);
+        if(reviews.length > 0) {
+            isReviewAllowed(reviews.filter((review) => review.user_id.toString() == Cookies.get('id')) <= 0);
+        } else {
+            isReviewAllowed(true);
+        }
     }, [reviews])
 
     return(
@@ -40,9 +44,9 @@ function BookReviewList({bookId}) {
                     <BookReview reviewData={review} />
                 ))
                 :
-                <p>There are no reviews for this book yet</p>
+                <p>There are no reviews for this book yet.</p>
             }
-            <AddComment comments={reviews} setComments={setReviews} isReview={true}/>
+            {(reviewAllowed && <AddComment bookId={bookId} comments={reviews} setComments={setReviews} isReview={true}/>)}
         </div>
     )
 }

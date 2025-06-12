@@ -9,6 +9,7 @@ import { getMiddlewareService } from "../../../getServices/getMiddlewareService"
 
 function AddComment({bookId, isReview, comments, setComments}) {
     const [submitting, setSubmitting] = useState(false);
+    const [allowed, isAllowed] = useState(false);
     const btnText = isReview ? "Add Review" : "Add Comment";
     const [form] = Form.useForm();
     const { user } = useAuth();
@@ -20,7 +21,7 @@ function AddComment({bookId, isReview, comments, setComments}) {
         rating: commentRating,
         comment: commentBody,
         private: false
-      }
+      }      
 
       user.getIdToken().then((tokenId) => {
           axios.put(`${getMiddlewareService()}/book-user/review/add`, newComment, { headers: { Authorization: `Bearer ${tokenId}` } }, ).then((response) => {
@@ -41,7 +42,7 @@ function AddComment({bookId, isReview, comments, setComments}) {
     const handleSubmit = () => {
       const commentBody = form.getFieldValue("comment-body").trim();
       const commentRating = form.getFieldValue("comment-rating");
-      //setSubmitting(true);
+      setSubmitting(true);
       setComments([
           ...comments,
           {
@@ -51,7 +52,7 @@ function AddComment({bookId, isReview, comments, setComments}) {
             created_at: moment().toISOString(),
           },
       ]);
-      //saveComment(commentBody, commentRating);
+      saveComment(commentBody, commentRating);
     };
 
     useEffect(() => {
@@ -63,13 +64,13 @@ function AddComment({bookId, isReview, comments, setComments}) {
     const Editor = ({ onChange, onSubmit, submitting, value }) => (
         <Form form={form} onFinish={onSubmit}>
              <Form.Item name="comment-rating">
-                <Rate allowHalf defaultValue={5}></Rate>
+                <Rate onChange={() => isAllowed(true)} allowHalf defaultValue={0}></Rate>
             </Form.Item>
             <Form.Item name="comment-body">
-                <Input.TextArea rows={4} onChange={onChange} value={value} />
+                <Input.TextArea rows={4} value={value}/>
             </Form.Item>
             <Form.Item>
-                <Button htmlType="submit" loading={submitting} type="primary">
+                <Button disabled={!allowed} htmlType="submit" loading={submitting} type="primary">
                     {btnText}
                 </Button>
             </Form.Item>
