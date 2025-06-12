@@ -11,6 +11,8 @@ function BookReviewList({bookId}) {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [reviewAllowed, isReviewAllowed] = useState(false);
+    const userId = Cookies.get('id');
+    const username = Cookies.get('username');
 
     useEffect(() => {
         setLoading(true);
@@ -31,7 +33,8 @@ function BookReviewList({bookId}) {
 
     useEffect(() => {
         if(reviews.length > 0) {
-            isReviewAllowed(reviews.filter((review) => review.user_id.toString() == Cookies.get('id')) <= 0);
+            console.log(reviews)
+            isReviewAllowed(reviews.filter((review) => review.user_id == userId || review.username == username) <= 0);
         } else {
             isReviewAllowed(true);
         }

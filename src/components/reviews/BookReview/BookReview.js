@@ -7,17 +7,25 @@ import moment from 'moment';
 import axios from 'axios';
 import { useAuth } from '../../../firebase/authContext';
 import { getMiddlewareService } from '../../../getServices/getMiddlewareService';
+import Cookies from 'js-cookie';
 
 function BookReview({ reviewData }) {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
+  const [actions, setActions] = useState([]);
   const [author, setAuthor] = useState("");
   const { user } = useAuth();
+  const [deleteAllowed, isDeleteAllowed] = useState(false);
+  const userId = Cookies.get('id');
 
   const comments = [] // TO-DO
 
   useEffect(() => {
+    if (userId == reviewData.user_id) {
+      isDeleteAllowed(true);
+    }
+
     if(reviewData.hasOwnProperty("username")) {
       setAuthor(reviewData.username);
     } else if(user) {
@@ -33,6 +41,43 @@ function BookReview({ reviewData }) {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    if(deleteAllowed) {
+      setActions([
+        <Tooltip key="comment-basic-like" title="Like">
+          <span onClick={like}>
+            {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+            <span className="comment-action">{likes}</span>
+          </span>
+        </Tooltip>,
+        <Tooltip key="comment-basic-dislike" title="Dislike">
+          <span onClick={dislike}>
+            {createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+            <span className="comment-action">{dislikes}</span>
+          </span>
+        </Tooltip>,
+        <span key="comment-basic-reply-to">Reply to</span>,
+        <span key="comment-basic-delete" onClick={deleteReview}>Delete</span>
+      ]);
+    } else {
+      setActions([
+        <Tooltip key="comment-basic-like" title="Like">
+          <span onClick={like}>
+            {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+            <span className="comment-action">{likes}</span>
+          </span>
+        </Tooltip>,
+        <Tooltip key="comment-basic-dislike" title="Dislike">
+          <span onClick={dislike}>
+            {createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+            <span className="comment-action">{dislikes}</span>
+          </span>
+        </Tooltip>,
+        <span key="comment-basic-reply-to">Reply to</span>
+      ]);
+    }
+  }, [user, deleteAllowed]);
 
   const like = () => {
       setLikes(1);
@@ -56,29 +101,12 @@ function BookReview({ reviewData }) {
               }
           })
           .catch((error) => {
-              message.error("There was an issue in deleting your review. Please try again later.");
+              //message.error("There was an issue in deleting your review. Please try again later.");
               console.log(error);
           })
       });
     }
   }
-
-  const actions = [
-    <Tooltip key="comment-basic-like" title="Like">
-      <span onClick={like}>
-        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-        <span className="comment-action">{likes}</span>
-      </span>
-    </Tooltip>,
-    <Tooltip key="comment-basic-dislike" title="Dislike">
-      <span onClick={dislike}>
-        {createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
-        <span className="comment-action">{dislikes}</span>
-      </span>
-    </Tooltip>,
-    <span key="comment-basic-reply-to">Reply to</span>,
-    <span key="comment-basic-delete" onClick={deleteReview}>Delete</span>
-  ];
 
     const Review = () => (
       <Comment
